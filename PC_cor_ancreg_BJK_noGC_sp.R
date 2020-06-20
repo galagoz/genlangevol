@@ -1,25 +1,29 @@
 ##/usr/local/R-3.2.3/bin/R
 ##Run Correlation of effect sizes from GWAS of 1000G PC components with effect sizes from ENIGMA
-##The effects sizes from GWAS of 1000G PC components were acquired from Katya and are from phase 3
+##The effects sizes from GWAS of 1000G PC components were acquired from Jason and are from phase 3
 ##They were calculated by deriving PCs from 1000G (all populations) and correlating that with SNPs
 ##The goal here is to see if population stratification is driving the results
 
 ##This script does the work for 1000G_PC_cor_BJK_noGC_master.R
- 
+
+## Reformat your GWAS summary statistics file for the analysis
+# awk '{print $1, $2, $3, $4, $8, $9, $10, $16, $19, $17, $18}' METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos.txt > METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt
+# sed -Ei 's/MarkerName/SNP/;s/Allele1/A1/;s/Allele2/A2/;s/Freq1/FREQ1/;s/Effect/BETA/;s/StdErr/SE/;s/P-value/P/;s/TotalSampleSize/N/;s/chrposID/MARKER/;s/POS/BP/' METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt
+
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
-args = commandArgs(trailingOnly=TRUE)
-frdatafile = args[1];
-phenoname = args[2];
-outputdir = args[3];
+#args = commandArgs(trailingOnly=TRUE)
+#frdatafile = args[1];
+#phenoname = args[2];
+#outputdir = args[3];
 
-##frdatafile = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/AncestryRegressionData_noGC/Mean_bankssts_surfavg_ancreg.Rdata";
-##phenoname = "Mean_bankssts_surfavg";
-##outputdir = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/beta_r_noGC/output";
+frdatafile = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt";
+phenoname = "word_reading";
+outputdir = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/output";
 
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-f1000G="/ifs/loni/faculty/dhibar/ENIGMA3/MAe3ukw3/evolution/1000Gphase3_PC_cor/1000GP_pase3_PCloadings_beta_se_pval/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata";
+f1000G="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt";
 
 
 ##Block jackknife function

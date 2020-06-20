@@ -1,0 +1,10 @@
+#!/bin/sh
+#$ -N PC_cor_WR
+#$ -cwd
+#$ -q single.q
+#$ -S /bin/bash
+
+dir=/data/workspaces/lag/workspaces/lg-genlang/Working/SCRIPTS/Evolution/
+binary=/usr/local/bin/Rscript
+cd $dir
+$binary PC_cor_ancreg_BJK_noGC_sp.R

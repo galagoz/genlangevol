@@ -1,6 +1,6 @@
 ##/usr/local/R-3.2.3/bin/R
 ##Run Correlation of effect sizes from GWAS of 1000G PC components with effect sizes from ENIGMA
-##The effects sizes from GWAS of 1000G PC components were acquired from Katya and are from phase 3
+##The effects sizes from GWAS of 1000G PC components were acquired from Jason and are from phase 3
 ##They were calculated by deriving PCs from 1000G (all populations) and correlating that with SNPs
 ##The goal here is to see if population stratification is driving the results
 
@@ -13,9 +13,9 @@
 options(stringsAsFactors=FALSE)
 
 ##directory of spearman's output
-outputdir = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/beta_r_noGC/" 
+outputdir = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/" 
 ##read in gwas statistics file (compiled for all traits)
-fGWASsumstats = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/AncestryRegressionData_noGC/GWASfiles.txt"
+fGWASsumstats = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt"
 
 ##Match the Rdata file locations of sumstats, text file sumstats
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1
@@ -35,5 +35,3 @@ for (i in 1:nrow(allfileloc)) {
     ##Submit the file to the grid
     system(paste0('qsub ',outputdir,'/scripts/',phenoname[i],'.sh'));
 }
-
-
