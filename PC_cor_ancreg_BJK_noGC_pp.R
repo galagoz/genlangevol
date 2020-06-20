@@ -13,9 +13,9 @@
 options(stringsAsFactors=FALSE)
 
 ##directory of spearman's output
-outputdir = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/" 
+outputdir = "/data/clusterfs/lag/users/gokala/Evolution/" 
 ##read in gwas statistics file (compiled for all traits)
-fGWASsumstats = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt"
+fGWASsumstats = "/data/clusterfs/lag/users/gokala/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt"
 
 ##Match the Rdata file locations of sumstats, text file sumstats
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1
@@ -25,9 +25,9 @@ phenoname = substr(tmpname,1,nchar(tmpname)-13);
 allfileloc = data.frame(rdatafile=GWASsumstats);
 
 for (i in 1:nrow(allfileloc)) {
-    ##Generate the file to submit to the grid
-    cat('cd /ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/\n',file=paste0(outputdir,'/scripts/',phenoname[i],'.sh'));
-    cat(paste0('/usr/local/R-3.2.3/bin/Rscript /ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/1000G_PC_cor_ancreg_BJK_noGC_slave.R ',allfileloc$rdatafile[i]," ",phenoname[i]," ",outputdir,"/output"),file=paste0(outputdir,'/scripts/',phenoname[i],'.sh'),append=TRUE);
+    ##Generate the file to submit to the grid - FIX DIRECTORIES HERE WHEN YOU'RE GOING TO LOOP ON ALL PHENOTYPES! ***
+    cat('cd /data/clusterfs/lag/users/gokala/1000Gphase3_PC_cor/\n',file=paste0(outputdir,'/scripts/',phenoname[i],'.sh'));
+    cat(paste0('/usr/local/R-3.2.3/bin/Rscript /data/clusterfs/lag/users/gokala/1000G_PC_cor_ancreg_BJK_noGC_slave.R ',allfileloc$rdatafile[i]," ",phenoname[i]," ",outputdir,"/output"),file=paste0(outputdir,'/scripts/',phenoname[i],'.sh'),append=TRUE);
 
     ##Make executable
     system(paste0("chmod a+x ",outputdir,'/scripts/',phenoname[i],'.sh'));

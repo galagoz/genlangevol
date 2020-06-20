@@ -18,12 +18,12 @@ library(GenomicRanges);
 #phenoname = args[2];
 #outputdir = args[3];
 
-frdatafile = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt";
+frdatafile = "/data/clusterfs/lag/users/gokala//METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt";
 phenoname = "word_reading";
-outputdir = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/output";
+outputdir = "/data/clusterfs/lag/users/gokala/output";
 
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-f1000G="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt";
+f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt";
 
 
 ##Block jackknife function
