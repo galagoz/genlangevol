@@ -1,5 +1,7 @@
 # GenLang-evolution
 
+All original scripts are available at Prof. Jason Stein's Bitbucket repository (https://bitbucket.org/jasonlouisstein/enigmaevolma6/src/master/). Original codes are adapted to our own data and research purposes.
+
 Format your GWAS summary statistics as the following:
 
 ```
