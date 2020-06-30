@@ -1,0 +1,9 @@
+#!/bin/sh
+#$ -N total_WR_corTest
+#$ -cwd
+#$ -q single.q
+#$ -S /bin/bash
+dir=/data/clusterfs/lag/users/gokala
+binary=/usr/local/bin/Rscript
+cd $dir
+$binary total_WR_corTest.R

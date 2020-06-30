@@ -1,33 +1,15 @@
-##/usr/local/R-3.2.3/bin/R
-##Run Correlation of effect sizes from GWAS of 1000G PC components with effect sizes from ENIGMA
-##The effects sizes from GWAS of 1000G PC components were acquired from Katya and are from phase 3
-##They were calculated by deriving PCs from 1000G (all populations) and correlating that with SNPs
-##The goal here is to see if population stratification is driving the results
-
-##This script does the work for 1000G_PC_cor_BJK_noGC_master.R
-
-#options(stringsAsFactors=FALSE)
-library(GenomicRanges);
-
-#args = commandArgs(trailingOnly=TRUE)
-#frdatafile = args[1];
-#phenoname = args[2];
-#outputdir = args[3];
-
-frdatafile = "1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.RData"
 phenoname = "word_reading"
-#outputdir = "P:/workspaces/lg-genlang/Working/Evolution/output";
-outputdir = "K:/data/MPI"
+outputdir = "/data/clusterfs/lag/users/gokala"
 
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-kGread=read.table("P:/workspaces/lg-genlang/Working/Evolution/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt",header=T,stringsAsFactors=F)
+kGread=read.table("/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt",header=T,stringsAsFactors=F)
 #save(kGread,file="1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.RData")
-frdatafile=read.table("P:/workspaces/lg-genlang/Working/Evolution/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt",header=T,fill=T,stringsAsFactors=F)
+frdatafile=read.table("/data/clusterfs/lag/users/gokala/METAANALYSIS_WR_RT_combined_STERR_GCOFF_1_chrpos_formatted.txt",header=T,fill=T,stringsAsFactors=F)
 #save(frdatafile,file="METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.RData")
 
 ##Block jackknife function
 cor.test.jack = function(x, y, blocks=1000) {
-
+  
   keep = is.finite(x) & is.finite(y)
   x = x[keep]
   y = y[keep]
@@ -38,16 +20,16 @@ cor.test.jack = function(x, y, blocks=1000) {
   jack_z = jack_est/jack_se;
   jack_p = 2*pnorm( -abs(jack_z));
   list(estimate=jack_est, se=jack_se, p=jack_p, estimate_normal=cor(x, y), se_normal=cor.test.plus(x, y)$se)
-
+  
 }
 
 cor.test.plus <- function(x, y, ...) {
-
+  
   # like cor.test, but also returns se of correlation
   corr = cor.test(x, y, ...)
   corr$se = unname(sqrt((1 - corr$estimate^2)/corr$parameter))
   corr
-
+  
 }
 
 ##set output variable
@@ -86,15 +68,15 @@ merged = as.data.frame(sort(sortSeqlevels(mergedGR)));
 
 ##Loop over all components
 for  (k in 1:20) {
-
-     coroutput=cor.test.jack(merged[,seq(10,67,3)[k]], merged$BETA);
-     output[1,seq(1,60,3)[k]] = coroutput$estimate;
-     output[1,seq(2,60,3)[k]] = coroutput$se;
-     output[1,seq(3,60,3)[k]] = coroutput$p;
-
-     print(k);
-     print(coroutput);
-
-}
   
-write.csv(output, paste0(outputdir, "/corvalues_",phenoname,"_BJK.csv"))
+  coroutput_total=cor.test.jack(merged[,seq(10,67,3)[k]], merged$BETA);
+  output[1,seq(1,60,3)[k]] = coroutput_total$estimate;
+  output[1,seq(2,60,3)[k]] = coroutput_total$se;
+  output[1,seq(3,60,3)[k]] = coroutput_total$p;
+  
+  print(k);
+  print(coroutput_total);
+  
+}
+
+write.csv(output, paste0(outputdir, "/corvalues_",phenoname,"_total_BJK.csv"))
