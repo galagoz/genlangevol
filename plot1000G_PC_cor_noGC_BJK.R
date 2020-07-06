@@ -44,3 +44,38 @@ for (i in 1:length(fcorvals)) {
 
 }
 dev.off();
+
+#################
+
+foutput = "K:/data/MPI/corvalues_word_reading_total_BJK.pdf";
+
+fcorvals = dir(dircorvals,full.names=TRUE,pattern="csv");
+
+##Make a pdf file of correlation estimates
+pdf(foutput);
+par(las=2);
+
+for (i in 1:length(fcorvals)) {
+    
+    ##Read in correlation values
+    corvals = read.csv(fcorvals[i]);
+    
+    ##Make barplots of correlation estimates for each
+    corind = grep("BJK_cor",colnames(corvals));
+    pind = grep("BJK_P",colnames(corvals));
+    seind = grep("BJK_SE",colnames(corvals));
+    x = barplot(as.matrix(corvals[1,corind]),main=corvals$X[1],ylab="correlation coefficient",xlab="Ancestry PC",names.arg=paste0("PC",seq(1,20)),ylim=c(-0.1,0.1));
+    y0 = as.numeric(corvals[1,corind]-corvals[1,seind]);
+    y1 = as.numeric(corvals[1,corind]+corvals[1,seind]);
+    arrows(x,y0,x,y1,angle=90,length=0)
+    ##Add asterisk when significant (Bonferroni corrected)
+    bonfsigind = which(corvals[1,pind] < 0.05/20);
+    ## draw asterisk for significant ones
+    ##text(x[sigind]+((x[sigind+1]-x[sigind])/2),0.095,"*");
+    text(x[bonfsigind],0.095,"*");
+    ##Add o when nominally significant
+    nomsigind = which(corvals[1,pind] >= 0.05/20 & corvals[1,pind] < 0.05);
+    text(x[nomsigind],0.095,"o");
+    
+}
+dev.off();
