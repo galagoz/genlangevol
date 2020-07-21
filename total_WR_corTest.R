@@ -1,3 +1,5 @@
+library("GenomicRanges")
+
 phenoname = "word_reading"
 outputdir = "/data/clusterfs/lag/users/gokala"
 

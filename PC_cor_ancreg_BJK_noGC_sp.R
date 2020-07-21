@@ -13,14 +13,15 @@ library(GenomicRanges);
 #frdatafile = args[1];
 #phenoname = args[2];
 #outputdir = args[3];
-
-frdatafile = "/data/clusterfs/lag/users/gokala//METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt";
-phenoname = "WR_RT";
-outputdir = "/data/clusterfs/lag/users/gokala/output";
-
+#P:/workspaces/lg-genlang/Working/Evolution/
+#/data/clusterfs/lag/users/gokala/
+load("/data/clusterfs/lag/users/gokala/Word_Reading_total_ancreg.Rdata")
+GWAS = as.data.frame(mcols(mergedGR))
+kG=read.table("/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt",header=T,fill=T,stringsAsFactors=F)
+phenoname = "WR_RT_total"
+outputdir = "/data/clusterfs/lag/users/gokala/"
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt";
-
+#kG="P:/workspaces/lg-genlang/Working/Evolution/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.txt";
 
 ##Block jackknife function
 cor.test.jack = function(x, y, blocks=1000) {
@@ -55,11 +56,10 @@ colnames(output)[seq(3,60,3)] = paste0("BJK_P",seq(1,20))
 rownames(output) = phenoname;
 
 ##Read in 1000G file
-load(f1000G);
+#load(f1000G);
 ##Read in the summary statistics
-load(frdatafile);
+#load(frdatafile);
 
-GWAS = as.data.frame(mcols(mergedGR));
 ##Merge 1kgp with GWAS
 merged = merge(kG, GWAS, by="SNP") ##x=kG, y=GWAS
 
