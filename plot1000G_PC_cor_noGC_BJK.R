@@ -10,7 +10,7 @@
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
-dircorvals = "K:/data/MPI"
+dircorvals = "P:/workspaces/lg-genlang/Working/Evolution"
 ##Output file
 foutput = "K:/data/MPI/corvalues_word_reading_BJK.pdf";
 

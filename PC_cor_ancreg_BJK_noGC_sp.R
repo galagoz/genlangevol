@@ -80,5 +80,5 @@ for  (k in 1:20) {
      print(coroutput);
 
 }
-  
-write.csv(output, paste0(outputdir, "/corvalues_",phenoname,"_BJK.csv"))
+
+write.csv(output, paste0(outputdir, "corvalues_",phenoname,"_BJK.csv"))

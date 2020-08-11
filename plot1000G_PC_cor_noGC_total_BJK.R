@@ -10,7 +10,7 @@
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
-dircorvals = "/data/clusterfs/lag/users/gokala"
+dircorvals = "/data/clusterfs/lag/users/gokala/corvals"
 ##Output file
 foutput = "/data/clusterfs/lag/users/gokala/corvalues_word_reading_total_BJK.pdf";
 
