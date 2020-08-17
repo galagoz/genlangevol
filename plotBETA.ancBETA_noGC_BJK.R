@@ -60,10 +60,10 @@ write.csv(output,file="P:/workspaces/lg-genlang/Working/Evolution/BETA.ancBETA_W
 stop();
 
 ##Plot the results
-pdf(file="P:/workspaces/lg-genlang/Working/Evolution/BETA.ancBETA_WR_Eur.pdf");
+pdf(file="BETA_ancBETA_WR_Eur.pdf");
 plot(1,output[,1],ylab="cor(BETA,ancestry adj BETA)",xlab="GWAS",pch=19,xaxt="n",main="Effect sizes");
 axis(1,at=1,labels=phenoname,las=2,cex.axis=0.3);
-
+dev.off()
 ##Correlate these to the LDSC intercept values
 ##Take only the LDSC intercepts from ancestry regressed, non-GC corrected, surface area
 #LDSCint = read.csv(fLDSCint);

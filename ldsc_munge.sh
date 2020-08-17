@@ -13,7 +13,6 @@
 #-----Variables-----
 # $input - summary statistic file
 # $output - outfile_name
-# ./ldsc_munge.sh /data/corpora/MPI_workspace/lag/lg-psy/raw_data/EAsumstats/data/EduYears_disc_rep_excl_ALSPAC_23andMe_sumstats.txt SES.2016 
 
 input="/data/clusterfs/lag/users/gokala/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.txt"
 output="/data/clusterfs/lag/users/gokala/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted_munged.txt"
