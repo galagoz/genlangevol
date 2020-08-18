@@ -4,10 +4,10 @@
 ##They were calculated by deriving PCs from 1000G (all populations) and correlating that with SNPs
 ##The goal here is to see if population stratification is driving the results
 
-##This script does the work for PC_cor_BJK_noGC_pp.R
+##This script does the work for 1000G_PC_cor_BJK_noGC_master.R
  
 options(stringsAsFactors=FALSE)
-library(GenomicRanges)
+library(GenomicRanges);
 
 args = commandArgs(trailingOnly=TRUE)
 frdatafile = args[1];
@@ -18,16 +18,13 @@ print(frdatafile)
 print(phenoname)
 print(outputdir)
 
-#frdatafile="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/sumstatsRdata/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.Rdata"
-#phenoname="WR_EUR"
-#outputdir="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution"
-
-##frdatafile = "Rdatafiles_noGC/Mean_bankssts_surfavg.Rdata";
-##phenoname = "Mean_bankssts_surfavg";
-##outputdir = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/beta_strat_noGC/output";
+#frdatafile = "P:/workspaces/lg-genlang/Working/Evolution/WR_EUR_ancreg.Rdata"
+#phenoname = "WR_EUR"
+#outputdir = "P:/workspaces/lg-genlang/Working/Evolution/"
 
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
 f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
+#"P:/workspaces/lg-genlang/Working/Evolution/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
 
 ##Block jackknife function
 cor.test.jack = function(x, y, blocks=1000) {
@@ -62,38 +59,23 @@ colnames(output)[seq(3,60,3)] = paste0("BJK_P",seq(1,20))
 rownames(output) = phenoname;
 
 ##Read in 1000G file
-load(f1000G);
+load(f1000G)
 ##Read in the summary statistics
-load(frdatafile);
-#frdatafile="P:/workspaces/lg-genlang/Working/Evolution/sumstatsRdata/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.Rdata"
+load(frdatafile)
 
-##calculate Z score in GWAS files
-tmp_ss_table$Z=NA;
-tmp_ss_table$Z=tmp_ss_table$BETA/tmp_ss_table$SE;
-GWAS = tmp_ss_table ### THIS LINE WAS ADDED
-#GWAS = as.data.frame(mcols(tmp_ss_table)); ### THIS LINE IS REMOVED 
-
+GWAS = as.data.frame(mcols(mergedGR))
 ##Merge 1kgp with GWAS
 merged = merge(table, GWAS, by="SNP") ##x=kG, y=GWAS
-##remove all NAs, keep only SNPs that have both measurements
-ind=which(!is.na(merged$Z))
-merged=merged[ind,]
-##for unaligned alleles, flip the Z score
-unalignedind=which(toupper(merged$A1.x)==toupper(merged$A2.y) & toupper(merged$A2.x)==toupper(merged$A1.y));
-##alignedind=which(toupper(merged$A1.x)==toupper(merged$A1.y) & toupper(merged$A2.x)==toupper(merged$A2.y));
-
-merged$Z[unalignedind] = (-1)* merged$Z[unalignedind];
-merged$BETA[unalignedind] = (-1)* merged$BETA[unalignedind];
 
 ##Need to resort the merged file
-mergedGR = GRanges(merged$CHR.x,IRanges(merged$POS,merged$POS));
-mcols(mergedGR) = merged[,c(1,3,5:74)];
+mergedGR = GRanges(merged$CHR,IRanges(merged$POS,merged$POS));
+mcols(mergedGR) = merged[,c(1,3,5:78)];
 merged = as.data.frame(sort(sortSeqlevels(mergedGR)));
 
 ##Loop over all components
 for  (k in 1:20) {
 
-     coroutput=cor.test.jack(merged[,seq(10,67,3)[k]], merged$BETA);
+     coroutput=cor.test.jack(merged[,seq(10,67,3)[k]], merged$ancBETA);
      output[1,seq(1,60,3)[k]] = coroutput$estimate;
      output[1,seq(2,60,3)[k]] = coroutput$se;
      output[1,seq(3,60,3)[k]] = coroutput$p;
@@ -103,4 +85,4 @@ for  (k in 1:20) {
 
 }
   
-write.csv(output, paste0(outputdir, "/corvalues_",phenoname,"_BJK.csv"))
+write.csv(output, paste0(outputdir, "corvalues_",phenoname,"_ancreg_BJK.csv"))

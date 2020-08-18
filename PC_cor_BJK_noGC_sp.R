@@ -7,12 +7,11 @@
 ##This script does the work for 1000G_PC_cor_BJK_noGC_pp.R
 
 options(stringsAsFactors=FALSE)
-library(GenomicRanges);
 
-#args = commandArgs(trailingOnly=TRUE)
-#frdatafile = args[1];
-#phenoname = args[2];
-#outputdir = args[3];
+args = commandArgs(trailingOnly=TRUE)
+frdatafile = args[1];
+phenoname = args[2];
+outputdir = args[3];
 
 #frdatafile = "1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.RData"
 phenoname = "word_reading"

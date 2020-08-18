@@ -10,11 +10,9 @@
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
-dircorvals = "/data/clusterfs/lag/users/gokala/beta/"
-#"P:/workspaces/lg-genlang/Working/Evolution/all_corvals/"
+dircorvals = "P:/workspaces/lg-genlang/Working/Evolution"
 ##Output file
-foutput = "/data/clusterfs/lag/users/gokala/beta/corvalues_BJK.pdf"
-#"P:/workspaces/lg-genlang/Working/Evolution/test_corvalsPlot.pdf"
+foutput = "K:/data/MPI/corvalues_word_reading_BJK.pdf";
 
 fcorvals = dir(dircorvals,full.names=TRUE,pattern="csv");
 
@@ -47,29 +45,26 @@ for (i in 1:length(fcorvals)) {
 }
 dev.off();
 
+#################
 
-dircorvals = "/data/clusterfs/lag/users/gokala/beta/";
-##Output file
-foutput = "/data/clusterfs/lag/users/gokala/beta/corvalues_BJK_allinone.pdf";
+foutput = "K:/data/MPI/corvalues_word_reading_total_BJK.pdf";
 
 fcorvals = dir(dircorvals,full.names=TRUE,pattern="csv");
-ind = grep("corvalues",fcorvals);
-fcorvals = fcorvals[ind];
 
 ##Make a pdf file of correlation estimates
-pdf(foutput,width=8.5,height=11);
-par(las=2,mfrow=c(3,2));
+pdf(foutput);
+par(las=2);
 
 for (i in 1:length(fcorvals)) {
-
+    
     ##Read in correlation values
-    corvals = read.csv(fcorvals[i])
-
+    corvals = read.csv(fcorvals[i]);
+    
     ##Make barplots of correlation estimates for each
     corind = grep("BJK_cor",colnames(corvals));
     pind = grep("BJK_P",colnames(corvals));
     seind = grep("BJK_SE",colnames(corvals));
-    x = barplot(as.matrix(corvals[1,corind]),main=corvals$X[1],ylab="correlation coefficient",xlab="Ancestry PC",names.arg=paste0("PC",seq(1,20)),ylim=c(-0.1,0.1),cex.axis=0.7,cex.names=0.7);
+    x = barplot(as.matrix(corvals[1,corind]),main=corvals$X[1],ylab="correlation coefficient",xlab="Ancestry PC",names.arg=paste0("PC",seq(1,20)),ylim=c(-0.1,0.1));
     y0 = as.numeric(corvals[1,corind]-corvals[1,seind]);
     y1 = as.numeric(corvals[1,corind]+corvals[1,seind]);
     arrows(x,y0,x,y1,angle=90,length=0)
@@ -81,6 +76,6 @@ for (i in 1:length(fcorvals)) {
     ##Add o when nominally significant
     nomsigind = which(corvals[1,pind] >= 0.05/20 & corvals[1,pind] < 0.05);
     text(x[nomsigind],0.095,"o");
-
+    
 }
-dev.off()
+dev.off();
