@@ -15,10 +15,12 @@ rs143225517 t c 0.8454 718.8055 232.3162 0.001974 15846 1:751756 1 751756
 rs146277091 a g 0.0344 -1186.6514 501.2970 0.01793 10501 1:752478 1 752478
 ```
 
-## 1.b) Save summary statistics files as Rdata files using `sumstats_txt2Rdata.R` and `run_sumstats_txt2Rdata.sh`.
+## 1.b) Save your summary statistics files in Rdata format
+Save summary statistics files as Rdata files using `sumstats_txt2Rdata.R` and `run_sumstats_txt2Rdata.sh`.
 Rdata files are smaller in size compared to txt files. Thus, working with them will speed up your analysis in the upcoming steps.
    
-## 1.c) Compile Rdata files names ("/path/to/dir/summary_stats.txt") to a single txt file using `list_rdata_files.R` and `run_list_rdata_files.sh`.
+## 1.c) List summary statistics file names
+Compile Rdata files names ("/path/to/dir/summary_stats.txt") to a single txt file using `list_rdata_files.R` and `run_list_rdata_files.sh`.
 
 ## 2. Assessing the impact of population stratification and Ancestry Regression
 
