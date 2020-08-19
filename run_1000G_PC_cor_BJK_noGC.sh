@@ -36,7 +36,7 @@ while read line; do
 #-----Variables-----
 source run_1000G_PC_cor_BJK_noGC_main.sh
 
-/usr/local/lib64/R/bin/Rscript /data/clusterfs/lag/users/gokala/1000G_PC_cor_BJK_noGC_slave.R $LINE $pheno_name $outDir' > $tmp_run_file
+/usr/local/lib64/R/bin/Rscript /data/clusterfs/lag/users/gokala/1000G_PC_cor_BJK_noGC.R $LINE $pheno_name $outDir' > $tmp_run_file
    chmod a+x $tmp_run_file
    echo "Created the script for cluster ->  submitting ${pheno_name} to the Grid"
    qsub -wd "/data/clusterfs/lag/users/gokala/beta/scripts" $tmp_run_file
