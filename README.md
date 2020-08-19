@@ -24,16 +24,16 @@ Compile Rdata files names ("/path/to/dir/summary_stats.txt") to a single txt fil
 
 ## 2. Assessing the impact of population stratification and Ancestry Regression
 
-## 1.a) Assess your summmary stats prior to ancestry regression
+## 2.a) Assess your summmary stats prior to ancestry regression
 Run the first correlation test between your summary statistics and 1000G phase 3 PC loadings (first 20 PCs).
 Use `1000G_PC_cor_BJK_noGC.R` and `run_1000G_PC_cor_BJK_noGC.sh`.
 Plot your results using `plot1000G_PC_cor_noGC_BJK.R` and `run_plot1000G_PC_cor_noGC_BJK.sh` (Fig.1a from Tilot et al., 2019).
 
-## 1.b) Ancestry Regression - correcting for population stratification
+## 2.b) Ancestry Regression - correcting for population stratification
 "Using a standard multivariable regression implemented in R with the lm() function, we regress the GWAS summary statistics prior to ancestry regression (Beta_strat) with the ancestry PCs (Beta_PCs). The residuals of this model are then ancestry corrected effect sizes (Beta_r) and also have ancestry corrected standard errors and P-values." (from original repo.)
 Use `AncestryRegression_noGC.R` and `run_AncestryRegression_noGC.sh`.
 
-## 1.c) Assess your summmary stats after ancestry regression
+## 2.c) Assess your summmary stats after ancestry regression
 Run the second correlation test between your summary statistics and 1000G phase 3 PC loadings (first 20 PCs).
 Use `1000G_PC_cor_ancreg_BJK_noGC.R` and `run_1000G_PC_cor_ancreg_BJK_noGC.sh`.
 Plot your results using `plot1000G_PC_cor_ancreg_noGC_BJK.R` and `run_plot1000G_PC_cor_ancreg_noGC_BJK.sh`  (Fig.1b from Tilot et al., 2019).
