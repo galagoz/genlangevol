@@ -1,6 +1,6 @@
 # GenLang-evolution
 
-All original scripts are available at Prof. Jason Stein's Bitbucket repository (https://bitbucket.org/jasonlouisstein/enigmaevolma6/src/master/). Original codes are adapted to our own data and research purposes.
+All original scripts are available at Prof. Jason Stein's repository (https://bitbucket.org/jasonlouisstein/enigmaevolma6/src/master/). Original codes are adapted to our own data and research purposes.
 
 ## 1. Pre-processing
 
