@@ -1,9 +1,9 @@
 #!/bin/sh
-#$ -N ldsc_munge
+#$ -N list_files
 #$ -cwd
 #$ -q single.q
 #$ -S /bin/bash
 
 echo "Starting"
-/usr/local/bin/Rscript testcor.R
+/usr/local/bin/Rscript list_files.R
 echo "Done!"

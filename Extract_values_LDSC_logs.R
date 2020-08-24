@@ -1,14 +1,15 @@
 library(tidyverse)
 library(here)
 
-files <- list.files("./LDSC/w_1KGP3_ancreg", full.names = T, include.dirs = F, pattern = ".log")
-files_wo <- list.files("./LDSC/wo_1KGP3_ancreg", full.names = T, include.dirs = F, pattern = ".log") #otherwise it takes directores too
-
+files <- list.files("P:/workspaces/lg-genlang/Working/Evolution/LDSC", full.names = T, include.dirs = F, pattern = ".log")
+#"/data/clusterfs/lag/users/gokala/LDSC"
+files_wo <- list.files("P:/workspaces/lg-genlang/Working/Evolution/LDSC/ancreg", full.names = T, include.dirs = F, pattern = ".log") #otherwise it takes directores too
+#"/data/clusterfs/lag/users/gokala/LDSC/ancreg"
 
 all_files <- c(files, files_wo)
 
-intercepts <- tibble("Region" = as.character(), 
-                     "Surf_Thic" = as.character(),
+intercepts <- tibble("Phenotpye" = as.character(), 
+                     #"Surf_Thic" = as.character(),
                      "Anc_reg" = as.logical(),
                      "Total_h2" = as.numeric(),
                      "Total_h2_sterr" = as.numeric(),
@@ -17,22 +18,24 @@ intercepts <- tibble("Region" = as.character(),
                      "LDSC_intercept" = as.numeric(),
                      "LDSC_int_sterr" = as.numeric())
 
+#i=1
+#i=13
 for (i in 1:length(all_files)) {
   results <- read_lines(all_files[i], skip = 25, n_max = 4)
   values <- as.numeric(unlist(str_extract_all(string = results, 
                                               pattern = "(?<=[:punct:]{1}\\s?)[:digit:]{1}\\.[:digit:]{2,4}")))
   info1 <- str_split(all_files[i], pattern = "/")
-  info2 <- str_split(info1[[1]][4], pattern = "_")
+  info2 <- ifelse(is.na(info1[[1]][8]), str_split(info1[[1]][7], pattern = ".l"),str_split(info1[[1]][8], pattern = ".l"))
   print(info2)
-  Surf_Thic <- case_when(info2[[1]][2] == "Full" & grepl("hick",info2[[1]][3]) ~ "Thickness",
-                         info2[[1]][2] == "Full" & grepl("urf",info2[[1]][3]) ~ "Surface Area",
-                         grepl("hick",info2[[1]][3]) ~ "Thickness",
-                         grepl("surf",info2[[1]][3]) ~ "Surface Area",
-                         TRUE ~ "Not Applicable")
-  Region <- if_else(info2[[1]][1] == "Mean", info2[[1]][2], "Height")
-  Anc_reg <- if_else(grepl("non",info2[[1]][6]), FALSE, TRUE)
-  to_add <- tibble("Region" = as.character(Region),
-         "Surf_Thic" = as.character(Surf_Thic),
+  #Surf_Thic <- case_when(info2[[1]][2] == "Full" & grepl("hick",info2[[1]][3]) ~ "Thickness",
+  #                       info2[[1]][2] == "Full" & grepl("urf",info2[[1]][3]) ~ "Surface Area",
+  #                       grepl("hick",info2[[1]][1]) ~ "Thickness",
+  #                       grepl("surf",info2[[1]][3]) ~ "Surface Area",
+  #                       TRUE ~ "Not Applicable")
+  Phenotype <- info2[[1]][1]
+  Anc_reg <- if_else(grepl("ancreg",info2[[1]][1]), TRUE, FALSE)
+  to_add <- tibble("Phenotype" = as.character(Phenotype),
+         #"Surf_Thic" = as.character(Surf_Thic),
          "Anc_reg" = as.logical(Anc_reg),
          "Total_h2" = as.numeric(values[1]),
          "Total_h2_sterr" = as.numeric(values[2]),
@@ -43,12 +46,12 @@ for (i in 1:length(all_files)) {
   intercepts <<- rbind(intercepts, to_add)
 }
 
-regionordering = read.csv(here("scripts", "1000Genomes_Phase3_Analysis","plotting","freesurfer_orderandcolor_Height.csv"))
+#regionordering = read.csv(here("scripts", "1000Genomes_Phase3_Analysis","plotting","freesurfer_orderandcolor_Height.csv"))
 
-intercepts$Region = factor(intercepts$Region, levels = regionordering$Region)
-intercepts$Surf_Thic = factor(intercepts$Surf_Thic)
+#intercepts$Region = factor(intercepts$Region, levels = regionordering$Region)
+#intercepts$Surf_Thic = factor(intercepts$Surf_Thic)
 
-write_csv(intercepts, "./LDSC/MA6_LDSC_intercepts_before_after_Phase3_ancreg_Rdata_based_noGC.csv")
+write_csv(intercepts, "P:/workspaces/lg-genlang/Working/Evolution/LDSC_intercepts_w_and_wo_ancreg.csv")
 
 ## For making initial plots
 
