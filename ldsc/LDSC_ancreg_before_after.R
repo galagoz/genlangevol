@@ -4,7 +4,7 @@ library(here)
 
 
 #regionordering = read.csv("plotting/freesurfer_orderandcolor.csv")
-intercepts <- read_csv("P:/workspaces/lg-genlang/Working/Evolution/LDSC_intercepts_w_and_wo_ancreg.csv", col_names = TRUE)
+intercepts <- read_csv("P:/workspaces/lg-genlang/Working/Evolution/LDSC_intercepts_w_and_wo_ancreg_v2.csv", col_names = TRUE)
 #intercepts <- intercepts[!intercepts$Region == "Height",]
 #intercepts$Region = factor(intercepts$Region, levels = regionordering$Region)
 
@@ -24,7 +24,27 @@ plot_data <- left_join(intercepts_wide, intercepts_sterr, by = c("Phenotype"), s
 Surf_plot <- plot_data %>% 
   #filter(Surf_Thic == "Surface Area") %>% 
   ggplot() + 
-  # geom_segment(aes(x = Region, xend = Region, y = `TRUE.intercept`,  yend = `FALSE.intercept`), color = "grey50") +
+  #geom_segment(aes(x = Phenotype, xend = Phenotype, y = `TRUE.intercept`,  yend = `FALSE.intercept`), color = "grey50") +
+  geom_segment(aes(x = Phenotype, xend = Phenotype, y = `TRUE.intercept`+`TRUE.sterr`,  yend = `TRUE.intercept`-`TRUE.sterr`), color = "#7fbf7b") +
+  geom_point(aes(x = Phenotype, y = `TRUE.intercept`), color = "#7fbf7b", size = 3) +
+  geom_segment(aes(x = Phenotype, xend = Phenotype, y = `FALSE.intercept`+`FALSE.sterr`,  yend = `FALSE.intercept`-`FALSE.sterr`), color = "#af8dc3") +
+  geom_point(aes(x = Phenotype, y = `FALSE.intercept`), color = "#af8dc3", size = 3) +
+  labs(y = "LDSC Intercept", 
+       x = "Phenotype", 
+       title = "Change in LDSC intercept",
+       subtitle = "Following ancestry regression (1000 Genomes, Phase 3), wo/ GC correction\nPurple = before, green = after") +
+  coord_flip() +
+  theme_classic()
+Surf_plot
+
+ggsave("P:/workspaces/lg-genlang/Working/Evolution/LDSC_ancreg_Rdata_before_after_w_errorbars_v2.pdf", width = 7, height = 7, unit = "in")
+
+
+## my version - similar to the preprint figure
+Surf_plot <- plot_data %>% 
+  #filter(Surf_Thic == "Surface Area") %>% 
+  ggplot() + 
+  #geom_segment(aes(x = Phenotype, xend = Phenotype, y = `TRUE.intercept`,  yend = `FALSE.intercept`), color = "grey50") +
   geom_segment(aes(x = Phenotype, xend = Phenotype, y = `TRUE.intercept`+`TRUE.sterr`,  yend = `TRUE.intercept`-`TRUE.sterr`), color = "#7fbf7b") +
   geom_point(aes(x = Phenotype, y = `TRUE.intercept`), color = "#7fbf7b", size = 3) +
   geom_segment(aes(x = Phenotype, xend = Phenotype, y = `FALSE.intercept`+`FALSE.sterr`,  yend = `FALSE.intercept`-`FALSE.sterr`), color = "#af8dc3") +
@@ -38,6 +58,10 @@ Surf_plot <- plot_data %>%
 Surf_plot
 
 ggsave("P:/workspaces/lg-genlang/Working/Evolution/LDSC_ancreg_Rdata_before_after_w_errorbars.pdf", width = 7, height = 7, unit = "in")
+
+
+
+
 
 # version with interleaved, rather than stacked points
 Surf_plot <- intercepts %>% 
@@ -54,7 +78,7 @@ Surf_plot <- intercepts %>%
   theme_classic()
 Surf_plot
 
-ggsave("P:/workspaces/lg-genlang/Working/Evolution/LDSC_ancreg_Rdata_before_after_w_errorbars_grouped.pdf", width = 7, height = 9, unit = "in")
+ggsave("P:/workspaces/lg-genlang/Working/Evolution/LDSC_ancreg_Rdata_before_after_w_errorbars_grouped_v2.pdf", width = 7, height = 9, unit = "in")
 
 
 
