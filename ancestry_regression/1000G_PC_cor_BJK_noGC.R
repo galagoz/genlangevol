@@ -4,7 +4,7 @@
 ##They were calculated by deriving PCs from 1000G (all populations) and correlating that with SNPs
 ##The goal here is to see if population stratification is driving the results
 
-##This script does the work for PC_cor_BJK_noGC_pp.R
+##This script does the work for run_PC_cor_BJK_noGC.R
  
 options(stringsAsFactors=FALSE)
 library(GenomicRanges)
