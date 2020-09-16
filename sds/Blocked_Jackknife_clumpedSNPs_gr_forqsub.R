@@ -36,9 +36,9 @@ for (i in 1:nrow(allfileloc)) {
     load(allfileloc$rdatafile[i]);
 
     ##calculate Z score in GWAS files
-    MAranges$Z=NA;
-    MAranges$Z=MAranges$BETA/MAranges$SE;
-    GWAS = as.data.frame(mcols(MAranges));
+    mergedGR$Z=NA;
+    mergedGR$Z=mergedGR$BETA/mergedGR$SE;
+    GWAS = as.data.frame(mcols(mergedGR));
     ##Merge SDS with GWAS
     merged = merge(SDS, GWAS, by.x="ID", by.y="SNP") ##x=SDS, y=GWAS
     ##remove all NAs, keep only SNPs that have both measurements
