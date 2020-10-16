@@ -1,7 +1,7 @@
 options(stringsAsFactors=FALSE);
 library(plotly);
 library(gplots);
-setwd('~/Documents/papers/ENIGMA-Evolution/RegionalPlottingFreesurfer');
+#setwd('~/Documents/papers/ENIGMA-Evolution/RegionalPlottingFreesurfer');
 
 ##Load in all the Freesurfer surfaces
 load('FreesurferRegionalObjs.Rdata')
@@ -154,9 +154,7 @@ valueforwholebrain = thisSA[which(thisSA$region=="Full"),]$BJK_ESTIM_AVE;
                          showscale=FALSE)
         }
     }
-    p = layout(p=p,scene = list(xaxis=ax,yaxis=ax,zaxis=ax,camera = list(eye = list(x = 2.3, y = 0, z = 0))),title=ftitle);
-    htmlwidgets::saveWidget(p, file = paste0("BJK_medial_GlobalSA_clump1.html"));
-    p = layout(p=p,scene = list(xaxis=ax,yaxis=ax,zaxis=ax,camera = list(eye = list(x = -2, y = 0, z = 0))),title=ftitle);
-    htmlwidgets::saveWidget(p, file = paste0("BJK_lateral_GlobalSA_clump1.html"));    
-    
-
+p = layout(p=p,scene = list(xaxis=ax,yaxis=ax,zaxis=ax,camera = list(eye = list(x = 2.3, y = 0, z = 0))),title=ftitle)
+htmlwidgets::saveWidget(p, file = paste0("BJK_medial_GlobalSA_clump1.html"))
+p = layout(p=p,scene = list(xaxis=ax,yaxis=ax,zaxis=ax,camera = list(eye = list(x = -2, y = 0, z = 0))),title=ftitle)
+htmlwidgets::saveWidget(p, file = paste0("BJK_lateral_GlobalSA_clump1.html"))

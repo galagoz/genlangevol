@@ -5,9 +5,9 @@ options(stringsAsFactors=FALSE);
 library(GenomicRanges);
 
 ##The relationships between a measure of selection and genetic influences on cortical structure (cor(tSDS),beta_r)
-fSDS = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/SDS/results/SDS_bjk_NOancreg_1kblocks.csv";
+fSDS = "/data/clusterfs/lag/users/gokala/genlang-evol/sds/SDS_bjk_ancreg_1kblocks.csv";
 ##LDSC intercept values from original ENIGMA (not ancestry regressed)
-fLDSCint = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/SDS_E3ancreg1KGP3_noGC/code/MA6_LDSC_intercepts_before_after_Phase3_ancreg_Rdata_based_noGC.csv";
+fLDSCint = "/data/clusterfs/lag/users/gokala/genlang-evol/LDSC/LDSC_intercepts_w_and_wo_ancreg.csv";
 
 ##Read in the SDS files
 SDS = read.csv(fSDS,row.names=1);

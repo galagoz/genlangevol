@@ -8,9 +8,9 @@ fSDS="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/SDS/SDS_UK10K
 ##directory of spearman's output
 outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/sds"
 ##Rdata files containing GWAS summary statistics
-rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/ancestry_regression/AncestryRegressionData_noGC/ancreg_Rdata/"
+rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstats"
 ##read in gwas statistics file (compiled for all traits)
-fGWASsumstats = "/data/clusterfs/lag/users/gokala/genlang-evol/ancestry_regression/AncestryRegressionData_noGC/ancreg_Rdata/sumstats_rdata_list.txt"
+fGWASsumstats = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata/sumstats_rdata_list.txt"
 
 ##Read in SDS file
 SDS=read.table(fSDS, fill=TRUE, header=TRUE);
@@ -18,8 +18,8 @@ SDS=read.table(fSDS, fill=TRUE, header=TRUE);
 ##Match the Rdata file locations of sumstats, text file sumstats, and clumped files
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1;
 ##Parse to get trait name
-tmpname = sapply(GWASsumstats,function (x) {unlist(strsplit(x,"/",fixed=TRUE))[11]});
-phenoname = substr(tmpname,1,nchar(tmpname)-6);
+tmpname = sapply(GWASsumstats,function (x) {unlist(strsplit(as.character(x),"/",fixed=TRUE))[9]});
+phenoname = phenoname = paste(sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[4]}),sep="_");
 allfileloc = data.frame(rdatafile=GWASsumstats);
 
 output=data.frame(global_corr_spearman=rep(NA, nrow(allfileloc)),
@@ -27,18 +27,18 @@ output=data.frame(global_corr_spearman=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_SE=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_Z=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_PVAL=rep(NA, nrow(allfileloc)));
-	  
+
 ##Loop over each of the phenotypes
 for (i in 1:nrow(allfileloc)) {
     pheno = phenoname[i];
     cat(' Working on:', pheno, '\n')
     cat('loading in',pheno,'pre-existing Rdata file...\n');
-    load(allfileloc$rdatafile[i]);
+    load(allfileloc$rdatafile[i])
 
     ##calculate Z score in GWAS files
-    mergedGR$Z=NA;
-    mergedGR$Z=mergedGR$BETA/mergedGR$SE;
-    GWAS = as.data.frame(mcols(mergedGR));
+    tmp_ss_table$Z=NA;
+    tmp_ss_table$Z=tmp_ss_table$BETA/tmp_ss_table$SE;
+    GWAS = as.data.frame(tmp_ss_table); #removed mcols(tmp_ss_table)
     ##Merge SDS with GWAS
     merged = merge(SDS, GWAS, by.x="ID", by.y="SNP") ##x=SDS, y=GWAS
     ##remove all NAs, keep only SNPs that have both measurements
@@ -65,10 +65,10 @@ for (i in 1:nrow(allfileloc)) {
     merged$A2[negind]=tmpA2[negind]
     merged$SDS[negind]= -1*merged$SDS[negind]
     merged$Z[negind]= -1* merged$Z[negind]
-  
+
     ##Sort the merged file by genomic location
-    newmergedGR = GRanges(merged$CHR,IRanges(merged$POS,merged$POS));
-    mcols(newmergedGR) = merged[,c(1,4:17)];
+    newmergedGR = GRanges(merged$CHR.x,IRanges(merged$POS,merged$POS));
+    mcols(newmergedGR) = merged[,c(1,4:18)]; # added Z column (18) here, script doesn't run without it
     newmergedGR = sort(sortSeqlevels(newmergedGR));
     
     dat = cbind(newmergedGR$SDS, newmergedGR$Z);
@@ -84,7 +84,7 @@ for (i in 1:nrow(allfileloc)) {
 
     ##Store leave-one-block-out estimates for different stats
     BJK_PSEUDO= matrix(0, nrow=BJK_num_blocks, ncol=num_tests);
-
+    head(dat)
     global_corr_spearman=cor(dat[,1],dat[,2],method="spearman");
 
     BJK_end=0;
