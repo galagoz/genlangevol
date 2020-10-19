@@ -1,22 +1,24 @@
 options(stringsAsFactors=FALSE);
 library(plotly);
 library(gplots);
-#setwd('~/Documents/papers/ENIGMA-Evolution/RegionalPlottingFreesurfer');
+setwd("/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evol-pipeline/")
 
 ##Load in all the Freesurfer surfaces
-load('FreesurferRegionalObjs.Rdata')
+freesurfer="/data/clusterfs/lag/users/gokala/enigma-evol/sds/FreesurferRegionalObjs.Rdata"
+load(freesurfer)
 
 ##Correlations with SDS scores at different thresholds
 #Set colorbar values
 minZ = -0.0165;
 maxZ = 0.0165;
     
-fcorvals = (paste0("../SDS_ancreg1KGPphase3_noGC_MA6/SDS_bjk_ancreg_1kblocks.csv"));
-corvals = read.csv(fcorvals);
-thisSA = corvals[c(grep("surfavg",corvals$X),grep("Mean_Full_SurfArea",corvals$X)),];
-thisSA$region = sapply(thisSA$X,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]});
-thisTH = corvals[c(grep("thickavg",corvals$X),grep("Mean_Full_Thickness",corvals$X)),];
-thisTH$region = sapply(thisTH$X,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]});
+fcorvals = (paste0("/data/clusterfs/lag/users/gokala/enigma-evol/sds/SDS_bjk_non-ancreg_1kblocks.csv"));
+corvals = read.csv(fcorvals)
+thisSA = corvals[grep("surf",corvals$X),]
+#thisSA$region = paste(sapply(as.character(thisSA$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(as.character(thisSA$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[3]}),sep="_")
+thisSA$region = paste(sapply(as.character(thisSA$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}))
+thisTH = corvals[grep("thick",corvals$X),]
+thisTH$region = paste(sapply(as.character(thisTH$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(as.character(thisTH$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[3]}),sep="_")
 
 ##Take only the left hemisphere obj files (everything in ENIGMA is mean bilateral)
 ##So no need for both hemispheres
@@ -36,7 +38,8 @@ ax = list(
 
     thisSA$padj = p.adjust(thisSA$BJK_ESTIM_PVAL,"BH");
     thisSA$BJK_ESTIM_AVE[which(thisSA$padj > 0.05)] = 0;
-    ##thisSA$clumpedcorestimate[which(thisSA$padj > 0.05)] = 0;
+    
+      ##thisSA$clumpedcorestimate[which(thisSA$padj > 0.05)] = 0;
     ##Make sure the order of each corresponds
     inds = match(names(objs),thisSA$region);
     thisSA = thisSA[inds,];

@@ -19,7 +19,7 @@ SDS=read.table(fSDS, fill=TRUE, header=TRUE);
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1;
 ##Parse to get trait name
 tmpname = sapply(GWASsumstats,function (x) {unlist(strsplit(as.character(x),"/",fixed=TRUE))[9]});
-phenoname = phenoname = paste(sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[4]}),sep="_");
+phenoname = paste(sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[4]}),sep="_");
 allfileloc = data.frame(rdatafile=GWASsumstats);
 
 output=data.frame(global_corr_spearman=rep(NA, nrow(allfileloc)),
