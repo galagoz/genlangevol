@@ -1,7 +1,7 @@
 options(stringsAsFactors=FALSE);
 library(plotly);
 library(gplots);
-setwd("/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evol-pipeline/")
+setwd("/data/clusterfs/lag/users/gokala/enigma-evol/sds")
 
 ##Load in all the Freesurfer surfaces
 freesurfer="/data/clusterfs/lag/users/gokala/enigma-evol/sds/FreesurferRegionalObjs.Rdata"
@@ -12,7 +12,7 @@ load(freesurfer)
 minZ = -0.0165;
 maxZ = 0.0165;
     
-fcorvals = (paste0("/data/clusterfs/lag/users/gokala/enigma-evol/sds/SDS_bjk_non-ancreg_1kblocks.csv"));
+fcorvals = (paste0("/data/clusterfs/lag/users/gokala/enigma-evol/sds/SDS_bjk_ancreg_1kblocks_replication2.csv"));
 corvals = read.csv(fcorvals)
 thisSA = corvals[grep("surf",corvals$X),]
 #thisSA$region = paste(sapply(as.character(thisSA$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(as.character(thisSA$X),function (x) {unlist(strsplit(x,"_",fixed=TRUE))[3]}),sep="_")

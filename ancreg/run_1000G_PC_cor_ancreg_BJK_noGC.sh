@@ -29,7 +29,7 @@ while read line; do
 #$ -q multi15.q
 #$ -S /bin/bash
 
-Rscript /data/clusterfs/lag/users/gokala/1000G_PC_cor_ancreg_BJK_noGC.R' $LINE $pheno_name $outDir > $tmp_run_file
+Rscript /data/clusterfs/lag/users/gokala/1000G_PC_cor_ancreg_BJK_noGC_slave.R' $LINE $pheno_name $outDir > $tmp_run_file
    chmod a+x $tmp_run_file
    echo "Created the script for cluster ->  submitting ${pheno_name} to the Grid"
    qsub -wd "/data/clusterfs/lag/users/gokala/beta/scripts" $tmp_run_file

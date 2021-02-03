@@ -18,15 +18,6 @@ print(frdatafile)
 print(phenoname)
 print(outputdir)
 
-#tmp_ss_table=read.table("/data/clusterfs/lag/users/gokala/bgenie_enigmaEvo_globalValues_SA_averaged.out", header=T, fill=T, stringsAsFactors=F)
-#save(tmp_ss_table,file="/data/clusterfs/lag/users/gokala/bgenie_enigmaEvo_globalValues_SA_averaged.Rdata")
-#frdatafile="/data/clusterfs/lag/users/gokala/bgenie_enigmaEvo_globalValues_SA_averaged.Rdata"
-#phenoname="global_surface_area"
-#outputdir="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution"
-#frdatafile="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/sumstatsRdata/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.Rdata"
-#phenoname="WR_EUR"
-#outputdir="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution"
-
 ##frdatafile = "Rdatafiles_noGC/Mean_bankssts_surfavg.Rdata";
 ##phenoname = "Mean_bankssts_surfavg";
 ##outputdir = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/beta_strat_noGC/output";
