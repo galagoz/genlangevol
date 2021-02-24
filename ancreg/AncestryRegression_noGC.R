@@ -13,11 +13,8 @@ load(f1000G)
 outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/corvals/"
 ##Rdata files containing GWAS summary statistics
 rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata"
-#/data/clusterfs/lag/users/gokala/beta/
-#P:/workspaces/lg-genlang/Working/Evolution/sumstats_rdata_list.txt
 ##read in gwas statistics file (compiled for all traits)
 fGWASsumstats = "/data/clusterfs/lag/users/gokala/beta/sumstats_rdata_list.txt"
-#P:/workspaces/lg-genlang/Working/Evolution/sumstats_rdata_list.txt
 
 ##Match the Rdata file locations of sumstats, text file sumstats, and clumped files
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1
