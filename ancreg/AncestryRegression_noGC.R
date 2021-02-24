@@ -10,9 +10,9 @@ args = commandArgs(trailingOnly=TRUE)
 f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
 load(f1000G)
 ##directory of spearman's output
-outputdir = "/data/clusterfs/lag/users/gokala/ancestry_regression/AncestryRegressionData_noGC/"
+outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/corvals/"
 ##Rdata files containing GWAS summary statistics
-rdatafileloc = "/data/clusterfs/lag/users/gokala/sumstatsRdata"
+rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata"
 #/data/clusterfs/lag/users/gokala/beta/
 #P:/workspaces/lg-genlang/Working/Evolution/sumstats_rdata_list.txt
 ##read in gwas statistics file (compiled for all traits)
