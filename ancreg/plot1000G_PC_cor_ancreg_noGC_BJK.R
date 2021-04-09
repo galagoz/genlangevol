@@ -10,13 +10,13 @@
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
-dircorvals = "/data/clusterfs/lag/users/gokala/beta/ancreg/"
-#"P:/workspaces/lg-genlang/Working/Evolution/all_corvals/"
-##Output file
-foutput = "/data/clusterfs/lag/users/gokala/beta/ancreg/corvalues_residual_BJK.pdf"
-#"P:/workspaces/lg-genlang/Working/Evolution/test_ancreg.pdf"
+#dircorvals = "/data/clusterfs/lag/users/gokala/beta/ancreg/"
 
-fcorvals = dir(dircorvals,pattern="ancreg_BJK",full.names=TRUE);
+##Output file
+foutput = "/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/results/ancestry_regression/mtag/corvalues_residual_BJK.pdf"
+
+fcorvals = "/data/clusterfs/lag/users/gokala/genlang-evol/corvals/corvalues_MTAG_ancreg_BJK.csv"
+#dir(dircorvals,pattern="ancreg_BJK",full.names=TRUE);
 
 ##Make a pdf file of correlation estimates
 pdf(foutput)

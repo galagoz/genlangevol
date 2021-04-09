@@ -7,24 +7,23 @@ library(GenomicRanges);
 
 args = commandArgs(trailingOnly=TRUE)
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
+f1000G="/data/clusterfs/lag/users/gokala/genlang-evol/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
 load(f1000G)
 ##directory of spearman's output
-outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/corvals/"
+outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/"
 ##Rdata files containing GWAS summary statistics
 rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata"
 ##read in gwas statistics file (compiled for all traits)
-fGWASsumstats = "/data/clusterfs/lag/users/gokala/beta/sumstats_rdata_list.txt"
+fGWASsumstats = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata/sumstats_rdata_list.txt"
 
 ##Match the Rdata file locations of sumstats, text file sumstats, and clumped files
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1
 ##Parse to get trait name
-tmpname = sapply(as.character(GWASsumstats),function (x) {unlist(strsplit(x,"/",fixed=TRUE))[8]})
-phenoname = paste(sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[4]}),sep="_")
+tmpname = sapply(as.character(GWASsumstats),function (x) {unlist(strsplit(x,"/",fixed=TRUE))[9]})
+phenoname = sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[1]})
 #phenoname = substr(tmpnamepheno,1,nchar(tmpnamepheno)-1)
 allfileloc = data.frame(rdatafile=GWASsumstats)
 
-#what are clumped files here?
 output=data.frame(matrix(NA,ncol=41,nrow=nrow(allfileloc)))
 colnames(output)[seq(1,40,2)] = paste0("clumpedcorestimate",seq(1,20))
 colnames(output)[seq(2,40,2)] = paste0("clumpedp",seq(1,20))
@@ -49,7 +48,7 @@ for (i in 1:nrow(allfileloc)) {
     
     #GWAS = as.data.frame(mcols(MAranges));
     ##Merge 1kgp with GWAS
-    merged = merge(table, tmp_ss_table, by="SNP") ##x=kG, y=GWAS
+    merged = merge(table, mergedGR, by="SNP") ##x=kG, y=GWAS
     ##remove all NAs, keep only SNPs that have both measurements
     ind=which(!is.na(merged$BETA))
     merged=merged[ind,]

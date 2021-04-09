@@ -22,8 +22,12 @@ print(outputdir)
 ##phenoname = "Mean_bankssts_surfavg";
 ##outputdir = "/ifs/loni/faculty/dhibar/ENIGMA3/MA6/evolution/1000Gphase3_PC_cor/beta_strat_noGC/output";
 
+#frdatafile = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata/MTAG_WR_NREAD_SP_PA_trait_1_formatted.Rdata";
+#phenoname = "Reading_Traits";
+#outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/corvals";
+
 ##load 1000G PC effect sizes (basically an estimate population stratification for each SNP)
-f1000G="/data/clusterfs/lag/users/gokala/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
+f1000G="/data/clusterfs/lag/users/gokala/genlang-evol/1kg_phase3_ns.allpop.unrel2261_eigenvec.P1to20_beta_se_pval.Rdata"
 
 ##Block jackknife function
 cor.test.jack = function(x, y, blocks=1000) {
@@ -64,9 +68,9 @@ load(frdatafile);
 #frdatafile="P:/workspaces/lg-genlang/Working/Evolution/sumstatsRdata/METAANALYSIS_WR_RT_EUR_combined_STERR_GCOFF_1_chrpos_formatted.Rdata"
 
 ##calculate Z score in GWAS files
-tmp_ss_table$Z=NA;
-tmp_ss_table$Z=tmp_ss_table$BETA/tmp_ss_table$SE;
-GWAS = tmp_ss_table ### THIS LINE WAS ADDED
+mergedGR$Z=NA;
+mergedGR$Z=mergedGR$BETA/mergedGR$SE;
+GWAS = mergedGR ### THIS LINE WAS ADDED
 #GWAS = as.data.frame(mcols(tmp_ss_table)); ### THIS LINE IS REMOVED 
 
 ##Merge 1kgp with GWAS

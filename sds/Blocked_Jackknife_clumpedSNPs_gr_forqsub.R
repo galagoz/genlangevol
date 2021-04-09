@@ -3,23 +3,28 @@
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
+#load("/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evol-pipeline/ancreg/surfaceDK_parsorbitalis_globalCov_ancreg.Rdata")
+#mergedGR=as.data.frame(mergedGR)
+#write.csv(mergedGR,file="/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evol-pipeline/ancreg/surfaceDK_parsorbitalis_globalCov_ancreg.csv",row.names=F)
+#csv_mergedGR=read.csv("/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evol-pipeline/ancreg/surfaceDK_parsorbitalis_globalCov_ancreg.csv")
+
 ##load SDS file
-fSDS="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/SDS/SDS_UK10K_n3195_release_Sep_19_2016.tab.gz"
+fSDS="/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/resources/SDS_UK10K_n3195_release_Sep_19_2016.tab.gz"
 ##directory of spearman's output
 outputdir = "/data/clusterfs/lag/users/gokala/genlang-evol/sds"
 ##Rdata files containing GWAS summary statistics
-rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstats"
+rdatafileloc = "/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/"
 ##read in gwas statistics file (compiled for all traits)
-fGWASsumstats = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstatsRdata/sumstats_rdata_list.txt"
+fGWASsumstats = "/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/ancreg_rdata_list.txt"
 
 ##Read in SDS file
 SDS=read.table(fSDS, fill=TRUE, header=TRUE);
 
 ##Match the Rdata file locations of sumstats, text file sumstats, and clumped files
 GWASsumstats=read.table(fGWASsumstats, header=FALSE)$V1;
-##Parse to get trait name
+##Parse to get trait name - UPDATE THIS PART ACCORDING TO YOUR PATH AND FILE NAMES
 tmpname = sapply(GWASsumstats,function (x) {unlist(strsplit(as.character(x),"/",fixed=TRUE))[9]});
-phenoname = paste(sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[2]}),sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[4]}),sep="_");
+phenoname = sapply(tmpname,function (x) {unlist(strsplit(x,"_",fixed=TRUE))[1]})
 allfileloc = data.frame(rdatafile=GWASsumstats);
 
 output=data.frame(global_corr_spearman=rep(NA, nrow(allfileloc)),
@@ -27,18 +32,18 @@ output=data.frame(global_corr_spearman=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_SE=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_Z=rep(NA, nrow(allfileloc)),
                BJK_ESTIM_PVAL=rep(NA, nrow(allfileloc)));
-
+#i=67
 ##Loop over each of the phenotypes
 for (i in 1:nrow(allfileloc)) {
     pheno = phenoname[i];
     cat(' Working on:', pheno, '\n')
     cat('loading in',pheno,'pre-existing Rdata file...\n');
+    #load(allfileloc$rdatafile[i])
     load(allfileloc$rdatafile[i])
-
     ##calculate Z score in GWAS files
-    tmp_ss_table$Z=NA;
-    tmp_ss_table$Z=tmp_ss_table$BETA/tmp_ss_table$SE;
-    GWAS = as.data.frame(tmp_ss_table); #removed mcols(tmp_ss_table)
+    mergedGR$Z=NA
+    mergedGR$Z=mergedGR$BETA/mergedGR$SE
+    GWAS = as.data.frame(mergedGR) #removed mcols(mergedGR)
     ##Merge SDS with GWAS
     merged = merge(SDS, GWAS, by.x="ID", by.y="SNP") ##x=SDS, y=GWAS
     ##remove all NAs, keep only SNPs that have both measurements
@@ -67,8 +72,8 @@ for (i in 1:nrow(allfileloc)) {
     merged$Z[negind]= -1* merged$Z[negind]
 
     ##Sort the merged file by genomic location
-    newmergedGR = GRanges(merged$CHR.x,IRanges(merged$POS,merged$POS));
-    mcols(newmergedGR) = merged[,c(1,4:18)]; # added Z column (18) here, script doesn't run without it
+    newmergedGR = GRanges(merged$CHR,IRanges(merged$POS,merged$POS));
+    mcols(newmergedGR) = merged[,c(1,4:17,25)]; # for ENIGMA-replication ancreg sumstats, added 25th column (Z) here, otherwise "dat" didn't have newmergedGR$Z (19th column for non-ancreg sumstats)
     newmergedGR = sort(sortSeqlevels(newmergedGR));
     
     dat = cbind(newmergedGR$SDS, newmergedGR$Z);
@@ -140,5 +145,5 @@ for (i in 1:nrow(allfileloc)) {
    output$BJK_ESTIM_PVAL[i]=BJK_ESTIM_PVAL;
 
    rownames(output)[i]=pheno;
-   write.csv(output, file=paste0(outputdir, "/SDS_bjk_NOancreg_1kblocks.csv"));
+   write.csv(output, file=paste0(outputdir, "/SDS_BJK_MTAG_ancreg_1kblocks.csv"));
 }

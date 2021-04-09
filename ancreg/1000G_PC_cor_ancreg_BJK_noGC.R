@@ -5,7 +5,7 @@
 ##The goal here is to see if population stratification is driving the results
 
 ##This script does the work for 1000G_PC_cor_BJK_noGC_master.R
- 
+
 options(stringsAsFactors=FALSE)
 library(GenomicRanges);
 
