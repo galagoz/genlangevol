@@ -13,7 +13,7 @@ library(kableExtra)
 
 options(stringsAsFactors=FALSE)
 
-annots = list.dirs(path = "/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/munged/results/", full.names = F, recursive = F)
+annots = list.dirs(path = "/data/clusterfs/lag/users/gokala/genlang-evol/sumstats/munged/results/", full.names = F, recursive = F)
 
 
 
@@ -30,7 +30,7 @@ partheritresults = data.frame(Category = character(0),
 #i=1
 for (i in 1:length(annots)){
   print(annots[i])
-  files = Sys.glob(path = paste0("/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/munged/results/",annots[i],"/*.gz.results"))
+  files = Sys.glob(path = paste0("/data/clusterfs/lag/users/gokala/genlang-evol/sumstats/munged/results/",annots[i],"/*.gz.results"))
   results = read.table(files,header=TRUE);
   info1 = str_split(files, pattern = "/")
   results$Annotation = info1[[1]][11]
@@ -40,9 +40,9 @@ partheritresults$bonferroni = p.adjust(partheritresults$Enrichment_p, method = "
 #partheritresults$annot.p <- if_else(partheritresults$bonferroni < 0.05, as.character(round(partheritresults$bonferroni, digits = 4)), "")
 partheritresults$significant = if_else(partheritresults$bonferroni < 0.05, "Yes", "")
 write.table(partheritresults, 
-            paste0("/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/munged/results/new_annots_partherit_results_bonf9.txt"),
+            paste0("/data/clusterfs/lag/users/gokala/genlang-evol/sumstats/munged/results/newannots_partherit_results_bonf9_nonancreg.txt"),
             sep = "\t", col.names = TRUE, row.names = TRUE, quote = FALSE)
 
 # Put eveything into a table
-new_annot_results=read.table("/data/clusterfs/lag/users/gokala/genlang-evol/ancreg/munged/results/new_annots_partherit_results_bonf9.txt",header=T, sep = "\t")
-save_kable(kable(new_annot_results, "latex", booktabs = T),"/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/results/partitioned_heritability/9annots_heritability_results.pdf")
+new_annot_results=read.table("/data/clusterfs/lag/users/gokala/genlang-evol/sumstats/munged/results/newannots_partherit_results_bonf9_nonancreg.txt",header=T, sep = "\t")
+save_kable(kable(new_annot_results, "latex", booktabs = T),"/data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/results/partitioned_heritability/mtag/newannots_partherit_results_bonf9_nonancreg.pdf")
