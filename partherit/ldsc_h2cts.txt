@@ -45,11 +45,12 @@ gzip *.annot
 #MacaquePFCEnhancers	/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.6.,/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.control1.
 #MacaquePFCPromoters	/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.7.,/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.control1.
 #AncientSelectiveSweeps	/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.8.
-FetalHGE	/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.9.,/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.control2.
+#FetalHGE	/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.9.,/data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots/evol_annots.control2.
 
 # RUN PART. H2 with h2-cts FLAG and CUSTOM ANNOTATIONS!
-/home/gokala/ldsc/ldsc.py --h2-cts /data/clusterfs/lag/users/gokala/dyslexia-evol/ancreg_sumstat/Dyslexia_ancreg_munged.txt.sumstats.gz \
+/home/gokala/ldsc/ldsc.py \
+--h2-cts /data/clusterfs/lag/users/gokala/genlang-evol/sumstats/munged/MTAG_WR_NREAD_SP_PA_trait_1_formatted_munged.txt.sumstats.gz \
 --ref-ld-chr /data/clusterfs/lag/users/gokala/enigma-evol/partherit/baselineLD/baselineLD. \
---out /data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/dyslexia \
+--out /data/workspaces/lag/workspaces/lg-genlang/Working/Evolution/results/partitioned_heritability/mtag/nonancestry_regressed/genlang_nonancreg_newannots \
 --ref-ld-chr-cts /data/workspaces/lag/workspaces/lg-ukbiobank/projects/enigma_evol/enigma_evo/evolution/resources/amanda_annotations/evol_annots.ldcts \
---w-ld-chr /data/workspaces/lag/shared_spaces/Resource_DB/LDscores/Phase3/1000G_Phase3_weights_hm3_no_MHC/weights.hm3_noMHC.
+--w-ld-chr /data/workspaces/lag/shared_spaces/Resource_DB/LDscores/Phase3/1000G_Phase3_weights_hm3_no_MHC/weights.hm3_noMHC. 
